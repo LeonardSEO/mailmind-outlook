@@ -23,11 +23,12 @@
   <HighResolutionIconUrl DefaultValue="https://registry.npmmirror.com/@lobehub/icons-static-png/1.15.0/files/dark/copilot-color.png"/>
 
   <!--If you plan to submit this add-in to the Office Store, uncomment the SupportUrl element below-->
-  <SupportUrl DefaultValue="https://github.com/yourusername/mailmind"/>
+  <SupportUrl DefaultValue="https://github.com/LeonardSEO/mailmind-outlook"/>
 
   <!-- Domains that will be allowed when navigating. For example, if you use ShowTaskpane and then have an href link, navigation will only be allowed if the domain is on this list. -->
   <AppDomains>
     <AppDomain>https://openrouter.ai</AppDomain>
+    <AppDomain>https://leonardseo.github.io</AppDomain>
   </AppDomains>
   <!--End Basic Settings. -->
 
@@ -42,7 +43,7 @@
   <FormSettings>
     <Form xsi:type="ItemRead">
       <DesktopSettings>
-        <SourceLocation DefaultValue="https://{USERNAME}.github.io/{REPO_NAME}/index.html"/>
+        <SourceLocation DefaultValue="https://leonardseo.github.io/mailmind-outlook/index.html"/>
         <RequestedHeight>250</RequestedHeight>
       </DesktopSettings>
     </Form>
@@ -129,9 +130,9 @@
         <bt:Image id="icon-80" DefaultValue="https://registry.npmmirror.com/@lobehub/icons-static-png/1.15.0/files/dark/copilot-color.png"/>
       </bt:Images>
       <bt:Urls>
-        <bt:Url id="functionFile" DefaultValue="https://{USERNAME}.github.io/{REPO_NAME}/function-file/function-file.html"/>
-        <bt:Url id="messageReadTaskPaneUrl" DefaultValue="https://{USERNAME}.github.io/{REPO_NAME}/index.html"/>
-        <bt:Url id="messageComposeTaskPaneUrl" DefaultValue="https://{USERNAME}.github.io/{REPO_NAME}/index.html"/>
+        <bt:Url id="functionFile" DefaultValue="https://leonardseo.github.io/mailmind-outlook/function-file/function-file.html"/>
+        <bt:Url id="messageReadTaskPaneUrl" DefaultValue="https://leonardseo.github.io/mailmind-outlook/index.html"/>
+        <bt:Url id="messageComposeTaskPaneUrl" DefaultValue="https://leonardseo.github.io/mailmind-outlook/index.html"/>
       </bt:Urls>
       <bt:ShortStrings>
         <bt:String id="groupLabel" DefaultValue="MailMind"/>
