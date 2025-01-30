@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>MailMind</title>
 
+    <!-- Required Microsoft AJAX -->
+    <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/3.5/MicrosoftAjax.js"></script>
+
     <!-- Office JavaScript API -->
     <script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.js"></script>
 
@@ -16,14 +19,14 @@
     <link href="https://leonardseo.github.io/mailmind-outlook/app.aee89eb33a32a6675514.css" rel="stylesheet" type="text/css" />
     <link href="https://leonardseo.github.io/mailmind-outlook/vendors.0f525053a2bb18c07f26.css" rel="stylesheet" type="text/css" />
 
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://leonardseo.github.io https://openrouter.ai https://*.office.com https://*.office365.com https://*.microsoft.com https://*.sharepointonline.com data: 'unsafe-inline' 'unsafe-eval';">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://leonardseo.github.io https://openrouter.ai https://*.office.com https://*.office365.com https://*.microsoft.com https://*.sharepointonline.com https://*.aspnetcdn.com data: 'unsafe-inline' 'unsafe-eval';">
 </head>
 
 <body class="ms-font-m ms-Fabric">
     <div id="container"></div>
 
     <script type="text/javascript">
-        Office.initialize = function () {
+        function loadApp() {
             // Load the app scripts
             var runtimeScript = document.createElement('script');
             runtimeScript.src = 'https://leonardseo.github.io/mailmind-outlook/runtime.c79fb66d722ac7ab0d92.js';
@@ -40,7 +43,16 @@
                     document.body.appendChild(appScript);
                 };
             };
-        };
+        }
+
+        // Initialize Office
+        Office.onReady()
+            .then(function() {
+                loadApp();
+            })
+            .catch(function(error) {
+                console.error('Error initializing Office:', error);
+            });
     </script>
 </body>
 </html>
