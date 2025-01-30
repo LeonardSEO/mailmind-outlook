@@ -6,8 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>MailMind</title>
 
-    <!-- Required Microsoft AJAX -->
-    <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/3.5/MicrosoftAjax.js"></script>
+    <!-- CSP Headers -->
+    <meta http-equiv="Content-Security-Policy" content="
+        default-src 'self' https: data: blob: 'unsafe-inline' 'unsafe-eval';
+        script-src 'self' https: 'unsafe-inline' 'unsafe-eval';
+        style-src 'self' https: 'unsafe-inline';
+        img-src 'self' https: data: blob:;
+        font-src 'self' https: data:;
+        frame-src 'self' https:;
+        connect-src 'self' https:;
+    ">
 
     <!-- Office JavaScript API -->
     <script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.js"></script>
@@ -18,37 +26,42 @@
     <!-- Template styles -->
     <link href="https://leonardseo.github.io/mailmind-outlook/app.aee89eb33a32a6675514.css" rel="stylesheet" type="text/css" />
     <link href="https://leonardseo.github.io/mailmind-outlook/vendors.0f525053a2bb18c07f26.css" rel="stylesheet" type="text/css" />
-
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://leonardseo.github.io https://openrouter.ai https://*.office.com https://*.office365.com https://*.microsoft.com https://*.sharepointonline.com https://*.aspnetcdn.com data: 'unsafe-inline' 'unsafe-eval';">
 </head>
 
 <body class="ms-font-m ms-Fabric">
     <div id="container"></div>
 
     <script type="text/javascript">
-        function loadApp() {
-            // Load the app scripts
-            var runtimeScript = document.createElement('script');
-            runtimeScript.src = 'https://leonardseo.github.io/mailmind-outlook/runtime.c79fb66d722ac7ab0d92.js';
-            document.body.appendChild(runtimeScript);
+        function loadScript(url) {
+            return new Promise((resolve, reject) => {
+                var script = document.createElement('script');
+                script.src = url;
+                script.onload = resolve;
+                script.onerror = reject;
+                document.body.appendChild(script);
+            });
+        }
 
-            runtimeScript.onload = function() {
-                var vendorsScript = document.createElement('script');
-                vendorsScript.src = 'https://leonardseo.github.io/mailmind-outlook/vendors.aad3aee0c04e04682cc4.js';
-                document.body.appendChild(vendorsScript);
-
-                vendorsScript.onload = function() {
-                    var appScript = document.createElement('script');
-                    appScript.src = 'https://leonardseo.github.io/mailmind-outlook/app.ab3b21f0ae741379919f.js';
-                    document.body.appendChild(appScript);
-                };
-            };
+        async function loadApp() {
+            try {
+                // Load MicrosoftAjax.js first
+                await loadScript('https://ajax.aspnetcdn.com/ajax/3.5/MicrosoftAjax.js');
+                
+                // Then load app scripts in sequence
+                await loadScript('https://leonardseo.github.io/mailmind-outlook/runtime.c79fb66d722ac7ab0d92.js');
+                await loadScript('https://leonardseo.github.io/mailmind-outlook/vendors.aad3aee0c04e04682cc4.js');
+                await loadScript('https://leonardseo.github.io/mailmind-outlook/app.ab3b21f0ae741379919f.js');
+            } catch (error) {
+                console.error('Error loading scripts:', error);
+            }
         }
 
         // Initialize Office
         Office.onReady()
-            .then(function() {
-                loadApp();
+            .then(function(info) {
+                if (info.host === Office.HostType.Outlook) {
+                    loadApp();
+                }
             })
             .catch(function(error) {
                 console.error('Error initializing Office:', error);
