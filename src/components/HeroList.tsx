@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Stack, Text, List, Icon } from '@fluentui/react';
 
 export interface HeroListItem {
     icon: string;
@@ -7,10 +8,21 @@ export interface HeroListItem {
 
 export interface HeroListProps {
     message: string;
-    items: HeroListItem[]
+    items: HeroListItem[];
+    children?: React.ReactNode;
 }
 
 export default class HeroList extends React.Component<HeroListProps> {
+    private _onRenderCell = (item: HeroListItem | undefined): JSX.Element => {
+        if (!item) return <></>;
+        return (
+            <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 10 }} styles={{ root: { padding: 10 } }}>
+                <Icon iconName={item.icon} />
+                <Text>{item.primaryText}</Text>
+            </Stack>
+        );
+    };
+
     render() {
         const {
             children,
@@ -18,20 +30,12 @@ export default class HeroList extends React.Component<HeroListProps> {
             message,
         } = this.props;
 
-        const listItems = items.map((item, index) => (
-            <li className='ms-ListItem' key={index}>
-                <i className={`ms-Icon ms-Icon--${item.icon}`}></i>
-                <span className='ms-font-m ms-fontColor-neutralPrimary'>{item.primaryText}</span>
-            </li>
-        ));
         return (
-            <main className='ms-welcome__main'>
-                <h2 className='ms-font-xl ms-fontWeight-semilight ms-fontColor-neutralPrimary ms-u-slideUpIn20'>{message}</h2>
-                <ul className='ms-List ms-welcome__features ms-u-slideUpIn10'>
-                    {listItems}
-                </ul>
+            <Stack tokens={{ childrenGap: 20 }} styles={{ root: { padding: 20 } }}>
+                <Text variant="xLarge">{message}</Text>
+                <List items={items} onRenderCell={this._onRenderCell} />
                 {children}
-            </main>
+            </Stack>
         );
     }
 }

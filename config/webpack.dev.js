@@ -1,29 +1,37 @@
 const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
-const webpackMerge = require('webpack-merge');
+const { merge } = require('webpack-merge');
 const commonConfig = require('./webpack.common.js');
 
-module.exports = webpackMerge(commonConfig, {
+const devCertsPath = path.resolve(process.env.USERPROFILE, '.office-addin-dev-certs');
+
+module.exports = merge(commonConfig, {
+    mode: 'development',
     devtool: 'eval-source-map',
     devServer: {
-        publicPath: '/',
-        contentBase: path.resolve('dist'),
+        static: {
+            directory: path.resolve('dist'),
+        },
         hot: true,
-        https: {
-            key: fs.readFileSync('./certs/server.key'),
-            cert: fs.readFileSync('./certs/server.crt'),
-            cacert: fs.readFileSync('./certs/ca.crt')
+        server: {
+            type: 'https',
+            options: {
+                key: fs.readFileSync(path.resolve(devCertsPath, 'localhost.key')),
+                cert: fs.readFileSync(path.resolve(devCertsPath, 'localhost.crt'))
+            }
         },
         compress: true,
-        overlay: {
-            warnings: false,
-            errors: true
+        client: {
+            overlay: {
+                warnings: false,
+                errors: true
+            }
         },
         port: 3000,
-        historyApiFallback: true
-    },
-    plugins: [
-        new webpack.HotModuleReplacementPlugin()
-    ]
+        historyApiFallback: true,
+        headers: {
+            "Access-Control-Allow-Origin": "*"
+        }
+    }
 });
