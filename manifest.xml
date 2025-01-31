@@ -58,7 +58,7 @@
   </Rule>
   <DisableEntityHighlighting>false</DisableEntityHighlighting>
 
-  <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides/1.1" xsi:type="VersionOverridesV1_1">
+  <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides" xsi:type="VersionOverridesV1_0">
     <Requirements>
       <bt:Sets DefaultMinVersion="1.3">
         <bt:Set Name="Mailbox"/>
@@ -150,15 +150,6 @@
               </Group>
             </OfficeTab>
           </ExtensionPoint>
-
-          <!-- Add support for pinning -->
-          <ExtensionPoint xsi:type="LaunchEvent">
-            <LaunchEvents>
-              <LaunchEvent Type="OnNewMessageCompose" FunctionName="onNewMessageComposeHandler"/>
-              <LaunchEvent Type="OnNewAppointmentOrganizer" FunctionName="onNewAppointmentOrganizerHandler"/>
-            </LaunchEvents>
-            <SourceLocation resid="functionFile"/>
-          </ExtensionPoint>
         </DesktopFormFactor>
       </Host>
     </Hosts>
@@ -188,6 +179,33 @@
         <bt:String id="summaryButtonDesc" DefaultValue="Get a quick summary of this email"/>
         <bt:String id="newEmailButtonDesc" DefaultValue="Let AI help you write a new email"/>
       </bt:LongStrings>
+    </Resources>
+  </VersionOverrides>
+
+  <!-- Enable launching the add-in on launch events. -->
+  <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides/1.1" xsi:type="VersionOverridesV1_1">
+    <Requirements>
+      <bt:Sets DefaultMinVersion="1.3">
+        <bt:Set Name="Mailbox"/>
+      </bt:Sets>
+    </Requirements>
+    <Hosts>
+      <Host xsi:type="MailHost">
+        <DesktopFormFactor>
+          <ExtensionPoint xsi:type="LaunchEvent">
+            <LaunchEvents>
+              <LaunchEvent Type="OnNewMessageCompose" FunctionName="onNewMessageComposeHandler"/>
+              <LaunchEvent Type="OnNewAppointmentOrganizer" FunctionName="onNewAppointmentOrganizerHandler"/>
+            </LaunchEvents>
+            <SourceLocation resid="functionFile"/>
+          </ExtensionPoint>
+        </DesktopFormFactor>
+      </Host>
+    </Hosts>
+    <Resources>
+      <bt:Urls>
+        <bt:Url id="functionFile" DefaultValue="https://leonardseo.github.io/mailmind-outlook/function-file/function-file.html"/>
+      </bt:Urls>
     </Resources>
   </VersionOverrides>
 </OfficeApp>
