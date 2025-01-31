@@ -197,7 +197,7 @@
                 <LaunchEvent Type="OnNewMessageCompose" FunctionName="onNewMessageComposeHandler"/>
                 <LaunchEvent Type="OnNewAppointmentOrganizer" FunctionName="onNewAppointmentOrganizerHandler"/>
               </LaunchEvents>
-              <SourceLocation resid="launchEventUrl"/>
+              <SourceLocation resid="functionFile"/>
             </ExtensionPoint>
           </DesktopFormFactor>
         </Host>
@@ -209,7 +209,7 @@
           <bt:Image id="icon-80" DefaultValue="https://registry.npmmirror.com/@lobehub/icons-static-png/1.15.0/files/dark/copilot-color.png"/>
         </bt:Images>
         <bt:Urls>
-          <bt:Url id="launchEventUrl" DefaultValue="https://leonardseo.github.io/mailmind-outlook/function-file/function-file.html"/>
+          <bt:Url id="functionFile" DefaultValue="https://leonardseo.github.io/mailmind-outlook/function-file/function-file.html"/>
         </bt:Urls>
         <bt:ShortStrings>
           <bt:String id="groupLabel" DefaultValue="MailMind"/>

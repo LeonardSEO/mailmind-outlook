@@ -499,7 +499,7 @@ Please provide assistance based on this context and the user's request.`;
                     <Stack horizontal tokens={{ childrenGap: 8 }}>
                         <Stack.Item grow>
                             <TextField
-                                multiline
+                        multiline
                                 rows={2}
                                 value={currentMessage}
                                 onChange={this.handleMessageChange}
