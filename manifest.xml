@@ -93,10 +93,26 @@
                     <SourceLocation resid="messageReadTaskPaneUrl" />
                   </Action>
                 </Control>
+                <Control xsi:type="Button" id="msgReadSummaryButton">
+                  <Label resid="summaryButtonLabel" />
+                  <Supertip>
+                    <Title resid="summaryButtonTitle" />
+                    <Description resid="summaryButtonDesc" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="icon-16"/>
+                    <bt:Image size="32" resid="icon-32"/>
+                    <bt:Image size="80" resid="icon-80"/>
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <SourceLocation resid="messageReadTaskPaneUrl" />
+                  </Action>
+                </Control>
               </Group>
             </OfficeTab>
           </ExtensionPoint>
 
+          <!-- Message Compose -->
           <ExtensionPoint xsi:type="MessageComposeCommandSurface">
             <OfficeTab id="TabDefault">
               <Group id="msgComposeGroup">
@@ -116,8 +132,32 @@
                     <SourceLocation resid="messageComposeTaskPaneUrl"/>
                   </Action>
                 </Control>
+                <Control xsi:type="Button" id="msgComposeNewEmailButton">
+                  <Label resid="newEmailButtonLabel"/>
+                  <Supertip>
+                    <Title resid="newEmailButtonTitle"/>
+                    <Description resid="newEmailButtonDesc"/>
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="icon-16"/>
+                    <bt:Image size="32" resid="icon-32"/>
+                    <bt:Image size="80" resid="icon-80"/>
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <SourceLocation resid="messageComposeTaskPaneUrl"/>
+                  </Action>
+                </Control>
               </Group>
             </OfficeTab>
+          </ExtensionPoint>
+
+          <!-- Add support for pinning -->
+          <ExtensionPoint xsi:type="LaunchEvent">
+            <LaunchEvents>
+              <LaunchEvent Type="OnNewMessageCompose" FunctionName="onNewMessageComposeHandler"/>
+              <LaunchEvent Type="OnNewAppointmentOrganizer" FunctionName="onNewAppointmentOrganizerHandler"/>
+            </LaunchEvents>
+            <SourceLocation resid="functionFile"/>
           </ExtensionPoint>
         </DesktopFormFactor>
       </Host>
@@ -136,11 +176,17 @@
       </bt:Urls>
       <bt:ShortStrings>
         <bt:String id="groupLabel" DefaultValue="MailMind"/>
-        <bt:String id="openPaneButtonLabel" DefaultValue="MailMind"/>
-        <bt:String id="openPaneButtonTitle" DefaultValue="MailMind"/>
+        <bt:String id="openPaneButtonLabel" DefaultValue="MailMind Assistant"/>
+        <bt:String id="openPaneButtonTitle" DefaultValue="Open MailMind Assistant"/>
+        <bt:String id="summaryButtonLabel" DefaultValue="Summarize Email"/>
+        <bt:String id="summaryButtonTitle" DefaultValue="Get Email Summary"/>
+        <bt:String id="newEmailButtonLabel" DefaultValue="Write New Email"/>
+        <bt:String id="newEmailButtonTitle" DefaultValue="AI Write New Email"/>
       </bt:ShortStrings>
       <bt:LongStrings>
-        <bt:String id="openPaneButtonDesc" DefaultValue="AI-powered email assistant"/>
+        <bt:String id="openPaneButtonDesc" DefaultValue="Open the MailMind AI assistant"/>
+        <bt:String id="summaryButtonDesc" DefaultValue="Get a quick summary of this email"/>
+        <bt:String id="newEmailButtonDesc" DefaultValue="Let AI help you write a new email"/>
       </bt:LongStrings>
     </Resources>
   </VersionOverrides>

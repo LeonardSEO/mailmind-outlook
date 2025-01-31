@@ -197,10 +197,10 @@ class App extends React.Component<AppProps, IAppState> {
         this.setState({ isPanelOpen: false });
     };
 
-    handleSendMessage = async () => {
-        const { currentMessage, emailContext, model, language } = this.state;
+    handleSendMessage = async (messageContent: string) => {
+        const { emailContext, model, language } = this.state;
         
-        if (!currentMessage.trim() || !this.openai || !model) {
+        if (!messageContent.trim() || !this.openai || !model) {
             this.setState({ error: 'Please configure your API key and model in settings first.' });
             return;
         }
@@ -208,7 +208,7 @@ class App extends React.Component<AppProps, IAppState> {
         this.setState(prevState => ({
             messages: [
                 ...prevState.messages,
-                { role: 'user', content: currentMessage }
+                { role: 'user', content: messageContent }
             ],
             currentMessage: '',
             isLoading: true,
@@ -241,7 +241,7 @@ Please provide assistance based on this context and the user's request.`;
                 messages: [
                     { role: 'system', content: systemPrompt },
                     ...this.state.messages.map(m => ({ role: m.role, content: m.content })),
-                    { role: 'user', content: currentMessage }
+                    { role: 'user', content: messageContent }
                 ],
                 temperature: 0.2,
                 top_p: 0.9,
@@ -265,6 +265,13 @@ Please provide assistance based on this context and the user's request.`;
                 error: 'Failed to get AI response. Please check your API key and model name.',
                 isLoading: false
             });
+        }
+    };
+
+    handleRegenerateResponse = () => {
+        const lastUserMessage = this.state.messages.filter(m => m.role === 'user').pop();
+        if (lastUserMessage) {
+            this.handleSendMessage(lastUserMessage.content);
         }
     };
 
@@ -430,18 +437,35 @@ Please provide assistance based on this context and the user's request.`;
                                             {msg.content}
                                         </Text>
                                         {msg.role === 'assistant' && (
-                                            <PrimaryButton
-                                                text="Use as Reply"
-                                                onClick={() => this.handleReply(msg.content)}
-                                                styles={{
-                                                    root: {
-                                                        marginTop: 12,
-                                                        borderRadius: 4,
-                                                        backgroundColor: '#34a853',
-                                                        border: 'none'
-                                                    }
-                                                }}
-                                            />
+                                            <Stack horizontal tokens={{ childrenGap: 8 }} styles={{ root: { marginTop: 12 } }}>
+                                                {msg.content.includes('---') && (
+                                                    <PrimaryButton
+                                                        text="Use as Reply"
+                                                        onClick={() => this.handleReply(msg.content)}
+                                                        styles={{
+                                                            root: {
+                                                                borderRadius: 4,
+                                                                backgroundColor: '#34a853',
+                                                                border: 'none'
+                                                            }
+                                                        }}
+                                                    />
+                                                )}
+                                                {!msg.content.includes('Hi! I\'m your AI email assistant') && (
+                                                    <IconButton
+                                                        iconProps={{ iconName: 'Refresh' }}
+                                                        title="Regenerate response"
+                                                        ariaLabel="Regenerate response"
+                                                        onClick={this.handleRegenerateResponse}
+                                                        styles={{
+                                                            root: {
+                                                                color: '#616161',
+                                                                marginLeft: 8
+                                                            }
+                                                        }}
+                                                    />
+                                                )}
+                                            </Stack>
                                         )}
                                     </Stack>
                                 </Stack>
@@ -475,7 +499,7 @@ Please provide assistance based on this context and the user's request.`;
                     <Stack horizontal tokens={{ childrenGap: 8 }}>
                         <Stack.Item grow>
                             <TextField
-                        multiline
+                                multiline
                                 rows={2}
                                 value={currentMessage}
                                 onChange={this.handleMessageChange}
@@ -489,7 +513,7 @@ Please provide assistance based on this context and the user's request.`;
                         </Stack.Item>
                         <PrimaryButton
                             text="Send"
-                            onClick={this.handleSendMessage}
+                            onClick={() => this.handleSendMessage(currentMessage)}
                             disabled={isLoading || !currentMessage.trim()}
                             styles={{
                                 root: {
