@@ -25,8 +25,8 @@ const render = (Component: typeof App) => {
 /* Initial render showing a progress bar */
 render(App);
 
-/* Render application after Office initializes */
-Office.initialize = () => {
+/* Initialize Office */
+Office.onReady(() => {
     isOfficeInitialized = true;
     render(App);
-};
+});

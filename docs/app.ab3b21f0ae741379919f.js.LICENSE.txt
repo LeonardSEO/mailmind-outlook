@@ -1,1 +1,0 @@
-/*! outlook-addin-using-react-demo v.1.0.0 (1738275756042) ©  */

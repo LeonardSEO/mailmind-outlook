@@ -6,6 +6,10 @@ module.exports = merge(commonConfig, {
     mode: 'production',
     devtool: 'source-map',
 
+    output: {
+        publicPath: 'https://leonardseo.github.io/mailmind-outlook/'
+    },
+
     performance: {
         hints: "warning"
     },
